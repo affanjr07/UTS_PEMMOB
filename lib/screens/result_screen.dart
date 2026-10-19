@@ -7,6 +7,7 @@ import '../core/navigation/app_routes.dart';
 import '../core/responsive/responsive.dart';
 import '../core/theme/app_type.dart';
 import '../state/quiz_controller.dart';
+import '../state/score_store.dart';
 import '../widgets/category_chip.dart';
 import '../widgets/decor_background.dart';
 import '../widgets/micro_label.dart';
@@ -41,8 +42,20 @@ class ResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = surfaceOf(context);
     final quiz = context.watch<QuizController>();
+    final store = context.watch<ScoreStore>();
     final result = quiz.buildResult();
     final gradeColor = _gradeColor(context, result.accuracy);
+    final isRecord = store.isNewRecord(result.score);
+
+    // Catat skor setelah frame pertama agar tidak memicu rebuild saat build.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      store.record(
+        score: result.score,
+        name: result.name,
+        correct: result.correct,
+        total: result.total,
+      );
+    });
 
     return Scaffold(
       body: DecorBackground(
@@ -150,6 +163,34 @@ class ResultScreen extends StatelessWidget {
                           color: gradeColor,
                           filled: true,
                         ),
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 420),
+                          curve: Curves.easeOutCubic,
+                          alignment: Alignment.topCenter,
+                          child: !isRecord
+                              ? const SizedBox(width: double.infinity)
+                              : Padding(
+                                  padding: EdgeInsets.only(
+                                    top: context.gap(10),
+                                  ),
+                                  child: CategoryChip(
+                                    label: 'rekor baru!',
+                                    color: palette.muted,
+                                    filled: true,
+                                  ),
+                                ),
+                        ),
+                        if (store.bestScore > 0)
+                          Padding(
+                            padding: EdgeInsets.only(top: context.gap(8)),
+                            child: Text(
+                              'Rekor tertinggimu: ${store.bestScore}',
+                              style: AppType.bodyStyle(
+                                fontSize: context.fs(11.5),
+                                color: palette.textSoft,
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   ),

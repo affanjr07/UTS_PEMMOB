@@ -8,6 +8,7 @@ import '../core/responsive/responsive.dart';
 import '../core/theme/app_type.dart';
 import '../models/question.dart';
 import '../state/quiz_controller.dart';
+import '../state/score_store.dart';
 import '../state/theme_controller.dart';
 import '../widgets/brand_logo.dart';
 import '../widgets/category_chip.dart';
@@ -132,6 +133,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     final palette = surfaceOf(context);
     final themeCtrl = context.watch<ThemeController>();
     final quiz = context.watch<QuizController>();
+    final store = context.watch<ScoreStore>();
     final canResume = quiz.status == QuizStatus.running;
 
     return Scaffold(
@@ -230,8 +232,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         SizedBox(height: context.gap(22)),
                         _stagger(4, _buildCategoryPicker(palette)),
                         SizedBox(height: context.gap(22)),
+                        if (store.bestScore > 0) ...[
+                          _stagger(5, _buildRecordBar(palette, store)),
+                          SizedBox(height: context.gap(22)),
+                        ],
                         _stagger(
-                          5,
+                          6,
                           PrimaryButton(
                             label: 'Mulai Kuis ($_pickedCount Soal)',
                             icon: Icons.arrow_forward_rounded,
@@ -241,7 +247,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         if (canResume) ...[
                           SizedBox(height: context.gap(12)),
                           _stagger(
-                            6,
+                            7,
                             SecondaryButton(
                               label:
                                   'Lanjutkan (${quiz.answeredCount}/${quiz.totalQuestions})',
@@ -321,6 +327,57 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   ),
                 ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRecordBar(SurfacePalette palette, ScoreStore store) {
+    return NeoCard(
+      radius: 18,
+      shadowOffset: 4,
+      padding: EdgeInsets.symmetric(
+        horizontal: context.gap(16),
+        vertical: context.gap(12),
+      ),
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            'assets/images/trophy.svg',
+            width: context.fs(28),
+            height: context.fs(28),
+          ),
+          SizedBox(width: context.gap(12)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'REKOR TERTINGGI: ${store.bestScore}',
+                  style: AppType.labelStyle(
+                    fontSize: context.fs(11),
+                    color: palette.text,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                SizedBox(height: context.gap(2)),
+                Text(
+                  store.lastScore > 0
+                      ? 'Skor terakhirmu: ${store.lastScore}'
+                      : 'Pecahkan rekor ini!',
+                  style: AppType.bodyStyle(
+                    fontSize: context.fs(11.5),
+                    color: palette.textSoft,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(
+            Icons.emoji_events_rounded,
+            color: palette.muted,
+            size: context.fs(20),
           ),
         ],
       ),
