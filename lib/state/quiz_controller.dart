@@ -14,8 +14,9 @@ class QuizController extends ChangeNotifier {
     : _questions = List.unmodifiable(QuizBank.questions),
       _answers = List<int?>.filled(QuizBank.questions.length, null);
 
-  final List<Question> _questions;
-  final List<int?> _answers;
+  List<Question> _questions;
+  List<int?> _answers;
+  List<QuizCategory> _lastCategories = QuizCategory.values;
 
   List<Question> get questions => _questions;
   List<int?> get answers => List.unmodifiable(_answers);
@@ -55,7 +56,9 @@ class QuizController extends ChangeNotifier {
   int get correctCount {
     var n = 0;
     for (var i = 0; i < _questions.length; i++) {
-      if (_answers[i] == _questions[i].correctIndex) n++;
+      if (_answers[i] == _questions[i].correctIndex) {
+        n++;
+      }
     }
     return n;
   }
@@ -64,7 +67,32 @@ class QuizController extends ChangeNotifier {
 
   double get progress => answeredCount / _questions.length;
 
-  void start({required String playerName, required bool withTimer}) {
+  /// Kategori yang dipilih pada sesi terakhir (untuk tombol ulangi).
+  List<QuizCategory> get selectedCategories => _lastCategories;
+
+  /// Jumlah soal unggulan dari suatu kombinasi kategori.
+  static int questionCountFor(List<QuizCategory>? categories) {
+    if (categories == null || categories.isEmpty) {
+      return QuizBank.questions.length;
+    }
+    return QuizBank.questions
+        .where((q) => categories.contains(q.category))
+        .length;
+  }
+
+  void start({
+    required String playerName,
+    required bool withTimer,
+    List<QuizCategory>? categories,
+  }) {
+    final picked = (categories == null || categories.isEmpty)
+        ? QuizCategory.values
+        : categories;
+    _lastCategories = picked;
+    _questions = List.unmodifiable(
+      QuizBank.questions.where((q) => picked.contains(q.category)).toList(),
+    );
+    _answers = List<int?>.filled(_questions.length, null);
     _playerName = playerName.trim();
     _withTimer = withTimer;
     _status = QuizStatus.running;
@@ -124,6 +152,7 @@ class QuizController extends ChangeNotifier {
     start(
       playerName: _playerName.isEmpty ? 'Peserta' : _playerName,
       withTimer: _withTimer,
+      categories: _lastCategories,
     );
   }
 

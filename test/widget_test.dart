@@ -25,13 +25,13 @@ void main() {
 
     expect(find.textContaining('Seberapa'), findsOneWidget);
 
-    await tapVisible(tester, find.text('MULAI KUIS'));
+    await tapVisible(tester, find.textContaining('MULAI KUIS'));
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.textContaining('minimal 2 karakter'), findsOneWidget);
 
     await tester.enterText(find.byType(TextField), 'Affan');
     await tester.pump(const Duration(milliseconds: 200));
-    await tapVisible(tester, find.text('MULAI KUIS'));
+    await tapVisible(tester, find.textContaining('MULAI KUIS'));
     await tester.pump(const Duration(milliseconds: 700));
 
     expect(find.textContaining('SOAL 1 DARI 12'), findsOneWidget);
@@ -44,7 +44,7 @@ void main() {
 
     await tester.enterText(find.byType(TextField), 'Affan');
     await tester.pump(const Duration(milliseconds: 150));
-    await tapVisible(tester, find.text('MULAI KUIS'));
+    await tapVisible(tester, find.textContaining('MULAI KUIS'));
     await tester.pump(const Duration(milliseconds: 700));
 
     final questions = QuizBank.questions;

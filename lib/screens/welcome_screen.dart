@@ -6,9 +6,11 @@ import '../core/theme/app_colors.dart';
 import '../core/navigation/app_routes.dart';
 import '../core/responsive/responsive.dart';
 import '../core/theme/app_type.dart';
+import '../models/question.dart';
 import '../state/quiz_controller.dart';
 import '../state/theme_controller.dart';
 import '../widgets/brand_logo.dart';
+import '../widgets/category_chip.dart';
 import '../widgets/decor_background.dart';
 import '../widgets/marquee_ticker.dart';
 import '../widgets/micro_label.dart';
@@ -45,6 +47,22 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   String? _error;
   bool _useTimer = true;
+  final Set<QuizCategory> _selectedCats = Set.of(QuizCategory.values);
+
+  int get _pickedCount =>
+      QuizController.questionCountFor(_selectedCats.toList());
+
+  Color _catColor(int index, SurfacePalette palette) {
+    const accents = [0, 1, 2, 0, 1];
+    switch (accents[index % accents.length]) {
+      case 0:
+        return palette.accent;
+      case 1:
+        return palette.accentAlt;
+      default:
+        return palette.muted;
+    }
+  }
 
   @override
   void initState() {
@@ -92,10 +110,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       _nameFocus.requestFocus();
       return;
     }
+    if (_selectedCats.isEmpty) {
+      setState(() => _error = 'Pilih minimal satu kategori soal.');
+      return;
+    }
     setState(() => _error = null);
     context.read<QuizController>().start(
       playerName: name,
       withTimer: _useTimer,
+      categories: _selectedCats.toList(),
     );
     Navigator.of(context).push(fadeSlideRoute(const QuizScreen()));
   }
@@ -118,7 +141,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           child: Column(
             children: [
               MarqueeTicker(
-                text: 'KUIS PILIHAN GANDA  •  12 SOAL  •  5 KATEGORI  •  ',
+                text:
+                    'KUIS PILIHAN GANDA  •  $_pickedCount SOAL  •  '
+                    '${_selectedCats.length} KATEGORI  •  ',
                 backgroundColor: palette.text,
                 textColor: palette.background,
               ),
@@ -203,10 +228,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         SizedBox(height: context.gap(26)),
                         _stagger(3, _buildForm(palette)),
                         SizedBox(height: context.gap(22)),
+                        _stagger(4, _buildCategoryPicker(palette)),
+                        SizedBox(height: context.gap(22)),
                         _stagger(
-                          4,
+                          5,
                           PrimaryButton(
-                            label: 'Mulai Kuis',
+                            label: 'Mulai Kuis ($_pickedCount Soal)',
                             icon: Icons.arrow_forward_rounded,
                             onPressed: _startQuiz,
                           ),
@@ -214,7 +241,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         if (canResume) ...[
                           SizedBox(height: context.gap(12)),
                           _stagger(
-                            5,
+                            6,
                             SecondaryButton(
                               label:
                                   'Lanjutkan (${quiz.answeredCount}/${quiz.totalQuestions})',
@@ -243,6 +270,59 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryPicker(SurfacePalette palette) {
+    final cats = QuizCategory.values;
+    return NeoCard(
+      radius: 22,
+      shadowOffset: 5,
+      padding: EdgeInsets.all(context.gap(18)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              MicroLabel('Kategori soal', color: palette.textSoft),
+              SizedBox(width: context.gap(8)),
+              Expanded(
+                child: Text(
+                  '$_pickedCount SOAL TERPILIH',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.right,
+                  style: AppType.labelStyle(
+                    fontSize: context.fs(10),
+                    color: palette.accent,
+                    letterSpacing: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: context.gap(14)),
+          Wrap(
+            spacing: context.gap(8),
+            runSpacing: context.gap(8),
+            children: [
+              for (var i = 0; i < cats.length; i++)
+                GestureDetector(
+                  onTap: () => setState(() {
+                    if (!_selectedCats.remove(cats[i])) {
+                      _selectedCats.add(cats[i]);
+                    }
+                  }),
+                  child: CategoryChip(
+                    label: cats[i].label,
+                    color: _catColor(i, palette),
+                    filled: _selectedCats.contains(cats[i]),
+                  ),
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }
