@@ -15,8 +15,11 @@ class ScoreStore extends ChangeNotifier {
   bool get loaded => _loaded;
   int get lastScore => recentScores.isEmpty ? 0 : recentScores.first;
 
+  /// Selesai memuat data tersimpan (dipakai pengujian).
+  late final Future<void> ready;
+
   ScoreStore() {
-    _load();
+    ready = _load();
   }
 
   Future<void> _load() async {
