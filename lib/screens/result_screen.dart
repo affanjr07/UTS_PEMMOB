@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -50,6 +51,7 @@ class ResultScreen extends StatelessWidget {
 
     // Catat skor setelah frame pertama agar tidak memicu rebuild saat build.
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      HapticFeedback.heavyImpact();
       store.record(
         score: result.score,
         name: result.name,

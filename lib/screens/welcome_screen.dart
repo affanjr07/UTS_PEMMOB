@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -116,6 +117,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       return;
     }
     setState(() => _error = null);
+    HapticFeedback.lightImpact();
     context.read<QuizController>().start(
       playerName: name,
       withTimer: _useTimer,

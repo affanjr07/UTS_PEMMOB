@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../core/theme/app_colors.dart';
@@ -37,6 +40,12 @@ class _QuizScreenState extends State<QuizScreen> {
     await Future<void>.delayed(_delayBeforeLock);
     if (!mounted) return;
     quiz.selectAnswer(index);
+    final benar = index == quiz.currentQuestion.correctIndex;
+    if (benar) {
+      unawaited(HapticFeedback.mediumImpact());
+    } else {
+      unawaited(HapticFeedback.lightImpact());
+    }
     setState(() {
       _pending = null;
       _showExplanation = true;
