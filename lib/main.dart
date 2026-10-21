@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'screens/welcome_screen.dart';
 import 'state/quiz_controller.dart';
+import 'state/prefs_store.dart';
 import 'state/score_store.dart';
 import 'state/theme_controller.dart';
 
@@ -23,6 +24,7 @@ class NalarNusantaraApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ThemeController()),
         ChangeNotifierProvider(create: (_) => QuizController()),
         ChangeNotifierProvider(create: (_) => ScoreStore()),
+        ChangeNotifierProvider(create: (_) => PrefsStore()),
       ],
       child: const _AppShell(),
     );

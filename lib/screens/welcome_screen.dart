@@ -9,6 +9,7 @@ import '../core/responsive/responsive.dart';
 import '../core/theme/app_type.dart';
 import '../models/question.dart';
 import '../state/quiz_controller.dart';
+import '../state/prefs_store.dart';
 import '../state/score_store.dart';
 import '../state/theme_controller.dart';
 import '../widgets/brand_logo.dart';
@@ -49,8 +50,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   )..repeat(reverse: true);
 
   String? _error;
-  bool _useTimer = true;
-  bool _shuffle = false;
   final Set<QuizCategory> _selectedCats = Set.of(QuizCategory.values);
 
   int get _pickedCount =>
@@ -120,11 +119,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     }
     setState(() => _error = null);
     HapticFeedback.lightImpact();
+    final prefs = context.read<PrefsStore>();
     context.read<QuizController>().start(
       playerName: name,
-      withTimer: _useTimer,
+      withTimer: prefs.useTimer,
       categories: _selectedCats.toList(),
-      shuffle: _shuffle,
+      shuffle: prefs.shuffle,
     );
     Navigator.of(context).push(fadeSlideRoute(const QuizScreen()));
   }
@@ -396,6 +396,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   }
 
   Widget _buildForm(SurfacePalette palette) {
+    final prefs = context.watch<PrefsStore>();
     return AnimatedBuilder(
       animation: _shake,
       builder: (context, child) {
@@ -499,10 +500,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     ],
                   ),
                 ),
-                Switch(
-                  value: _useTimer,
-                  onChanged: (v) => setState(() => _useTimer = v),
-                ),
+                Switch(value: prefs.useTimer, onChanged: prefs.setUseTimer),
               ],
             ),
             Divider(height: context.gap(24), thickness: 1.4),
@@ -536,10 +534,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     ],
                   ),
                 ),
-                Switch(
-                  value: _shuffle,
-                  onChanged: (v) => setState(() => _shuffle = v),
-                ),
+                Switch(value: prefs.shuffle, onChanged: prefs.setShuffle),
               ],
             ),
           ],
