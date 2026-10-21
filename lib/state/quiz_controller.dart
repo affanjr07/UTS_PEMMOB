@@ -30,6 +30,7 @@ class QuizController extends ChangeNotifier {
   int _timeLeft = 0;
   int _elapsed = 0;
   bool _withTimer = false;
+  bool _shuffle = false;
   bool _justAnswered = false;
   Timer? _ticker;
 
@@ -45,6 +46,7 @@ class QuizController extends ChangeNotifier {
   int get timeLeft => _timeLeft;
   int get elapsedSeconds => _elapsed;
   bool get withTimer => _withTimer;
+  bool get shuffled => _shuffle;
   bool get justAnswered => _justAnswered;
   int get score => _score;
   int get streak => _streak;
@@ -84,17 +86,21 @@ class QuizController extends ChangeNotifier {
     required String playerName,
     required bool withTimer,
     List<QuizCategory>? categories,
+    bool shuffle = false,
   }) {
     final picked = (categories == null || categories.isEmpty)
         ? QuizCategory.values
         : categories;
     _lastCategories = picked;
-    _questions = List.unmodifiable(
-      QuizBank.questions.where((q) => picked.contains(q.category)).toList(),
-    );
+    final list = QuizBank.questions
+        .where((q) => picked.contains(q.category))
+        .toList();
+    if (shuffle) list.shuffle();
+    _questions = List.unmodifiable(list);
     _answers = List<int?>.filled(_questions.length, null);
     _playerName = playerName.trim();
     _withTimer = withTimer;
+    _shuffle = shuffle;
     _status = QuizStatus.running;
     _currentIndex = 0;
     _score = 0;
@@ -153,6 +159,7 @@ class QuizController extends ChangeNotifier {
       playerName: _playerName.isEmpty ? 'Peserta' : _playerName,
       withTimer: _withTimer,
       categories: _lastCategories,
+      shuffle: _shuffle,
     );
   }
 

@@ -50,6 +50,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   String? _error;
   bool _useTimer = true;
+  bool _shuffle = false;
   final Set<QuizCategory> _selectedCats = Set.of(QuizCategory.values);
 
   int get _pickedCount =>
@@ -123,6 +124,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       playerName: name,
       withTimer: _useTimer,
       categories: _selectedCats.toList(),
+      shuffle: _shuffle,
     );
     Navigator.of(context).push(fadeSlideRoute(const QuizScreen()));
   }
@@ -500,6 +502,43 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 Switch(
                   value: _useTimer,
                   onChanged: (v) => setState(() => _useTimer = v),
+                ),
+              ],
+            ),
+            Divider(height: context.gap(24), thickness: 1.4),
+            Row(
+              children: [
+                Icon(
+                  Icons.shuffle_rounded,
+                  size: context.sz(20),
+                  color: palette.accentAlt,
+                ),
+                SizedBox(width: context.gap(10)),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'ACAK URUTAN SOAL',
+                        style: AppType.labelStyle(
+                          fontSize: context.fs(11),
+                          color: palette.text,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                      Text(
+                        'Urutan soal dibalik acak tiap kali kuis dimulai',
+                        style: AppType.bodyStyle(
+                          fontSize: context.fs(11.5),
+                          color: palette.textSoft,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Switch(
+                  value: _shuffle,
+                  onChanged: (v) => setState(() => _shuffle = v),
                 ),
               ],
             ),
