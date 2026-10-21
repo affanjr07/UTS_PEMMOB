@@ -7,6 +7,7 @@ import '../core/theme/app_colors.dart';
 import '../core/navigation/app_routes.dart';
 import '../core/responsive/responsive.dart';
 import '../core/theme/app_type.dart';
+import '../models/question.dart';
 import '../state/quiz_controller.dart';
 import '../state/score_store.dart';
 import '../widgets/category_chip.dart';
@@ -38,6 +39,36 @@ class ResultScreen extends StatelessWidget {
     final m = seconds ~/ 60;
     final s = seconds % 60;
     return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> _copyResult(
+    BuildContext context,
+    QuizResult result,
+    SurfacePalette palette,
+  ) async {
+    final text =
+        'NALAR NUSANTARA\n'
+        'Peserta: ${result.name}\n'
+        'Skor: ${result.score} (${result.correct}/${result.total} benar)\n'
+        'Predikat: ${result.grade}\n'
+        'Streak terbaik: ${result.bestStreak}\n'
+        'Waktu: ${_formatDuration(result.elapsedSeconds)}';
+    await Clipboard.setData(ClipboardData(text: text));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: palette.text,
+        content: Text(
+          'Hasil disalin ke papan klip!',
+          style: AppType.bodyStyle(
+            fontSize: context.fs(13),
+            color: palette.background,
+            weight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -282,6 +313,12 @@ class ResultScreen extends StatelessWidget {
                         onPressed: () =>
                             Navigator.of(context)
                                 .push(fadeSlideRoute(const ReviewScreen())),
+                      ),
+                      SizedBox(height: context.gap(12)),
+                      SecondaryButton(
+                        label: 'Salin Hasil',
+                        icon: Icons.copy_rounded,
+                        onPressed: () => _copyResult(context, result, palette),
                       ),
                       SizedBox(height: context.gap(12)),
                       PrimaryButton(
