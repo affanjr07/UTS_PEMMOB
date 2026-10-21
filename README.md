@@ -106,5 +106,5 @@ flutter build apk --release # menghasilkan APK di build/app/outputs/flutter-apk/
 18. `test: unit test QuizController (skor, streak, bonus waktu, filter kategori, restart)`
 19. `test: unit test ScoreStore (rekor, riwayat, persistensi, idempotensi)`
 20. `test: widget test ganti tema & alur resume kuis dari halaman sambutan`
-21. `docs: perbarui README (fitur baru, struktur, riwayat commit)`
-22. `docs: tambah CHANGELOG.md`
+21. `docs: README & CHANGELOG lengkap (kriteria, fitur, struktur, riwayat commit)`
+22. `docs: sinkronkan ringkasan riwayat commit pada README`

@@ -32,4 +32,4 @@ Rilis pertama untuk tugas UTS Lab Pemrograman Mobile.
 ### Teknis
 
 - `flutter analyze`: 0 issue · `flutter test`: 15 pengujian lolos · `flutter build apk --release` sukses.
-- 22 commit per fitur di GitHub sebagai pelacakan kemajuan.
+- 23 commit di GitHub sebagai pelacakan kemajuan.
