@@ -19,6 +19,7 @@ import '../widgets/micro_label.dart';
 import '../widgets/neo_card.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/secondary_button.dart';
+import 'about_screen.dart';
 import 'quiz_screen.dart';
 
 /// Halaman pembuka: input nama peserta + pengaturan sebelum mulai.
@@ -188,6 +189,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                   ],
                                 ),
                               ),
+                              _HeaderIcon(
+                                icon: Icons.info_outline_rounded,
+                                onTap: () => Navigator.of(context)
+                                    .push(fadeSlideRoute(const AboutScreen())),
+                              ),
+                              SizedBox(width: context.gap(7)),
                               _ThemeToggle(controller: themeCtrl),
                             ],
                           ),
@@ -498,6 +505,39 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _HeaderIcon extends StatelessWidget {
+  const _HeaderIcon({required this.icon, required this.onTap});
+
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = surfaceOf(context);
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: context.sz(44),
+        height: context.sz(44),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: palette.surface,
+          shape: BoxShape.circle,
+          border: Border.all(color: palette.border, width: context.sz(1.6)),
+          boxShadow: [
+            BoxShadow(
+              color: palette.shadow,
+              offset: Offset(context.sz(3), context.sz(3)),
+              blurRadius: 0,
+            ),
+          ],
+        ),
+        child: Icon(icon, size: context.sz(20), color: palette.text),
       ),
     );
   }
