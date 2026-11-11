@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Presentasi — Nalar Nusantara</title>
+<style>
+  @font-face { font-family:'Syne'; src:url('../../assets/fonts/Syne-500.ttf'); font-weight:500; }
+  @font-face { font-family:'Syne'; src:url('../../assets/fonts/Syne-700.ttf'); font-weight:700; }
+  @font-face { font-family:'Syne'; src:url('../../assets/fonts/Syne-800.ttf'); font-weight:800; }
+  @font-face { font-family:'SpaceGrotesk'; src:url('../../assets/fonts/SpaceGrotesk-400.ttf'); font-weight:400; }
+  @font-face { font-family:'SpaceGrotesk'; src:url('../../assets/fonts/SpaceGrotesk-600.ttf'); font-weight:600; }
+  @font-face { font-family:'SpaceGrotesk'; src:url('../../assets/fonts/SpaceGrotesk-700.ttf'); font-weight:700; }
+
+  @page { size: 254mm 142.9mm; margin: 0; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body { font-family:'SpaceGrotesk','Segoe UI',sans-serif; color:#101109; background:#F4F0E6; }
+
+  .slide {
+    width:254mm; height:142.9mm; padding:11mm 12mm; position:relative; overflow:hidden;
+    break-after:page; page-break-after:always;
+    background:
+      radial-gradient(circle at 93% 5%, rgba(255,90,31,.07), transparent 45%),
+      radial-gradient(circle at 3% 95%, rgba(14,124,123,.07), transparent 42%),
+      #F4F0E6;
+  }
+  .slide:last-child { break-after:auto; page-break-after:auto; }
+
+  .kicker { font-size:9pt; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:#FF5A1F; }
+  h1 { font-family:'Syne'; font-weight:800; font-size:34pt; letter-spacing:-1pt; line-height:1.05; margin:4mm 0 3mm; }
+  h2 { font-family:'Syne'; font-weight:800; font-size:24pt; letter-spacing:-.5pt; margin:1mm 0 2mm; }
+  .rule { height:1.4mm; width:38mm; background:#101109; border-radius:1mm; margin-bottom:5mm; }
+  p.lead { font-size:12.5pt; line-height:1.6; color:#3d3a30; max-width:180mm; }
+  .foot {
+    position:absolute; bottom:7mm; left:12mm; right:12mm; display:flex; justify-content:space-between;
+    font-size:7.5pt; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:#8a8474;
+  }
+
+  .card {
+    background:#FBF8F0; border:.8mm solid #101109; border-radius:4mm;
+    box-shadow:1.2mm 1.2mm 0 #101109; padding:5mm 6mm; margin-bottom:4mm;
+  }
+  .grid2 { display:flex; gap:5mm; } .grid2 > * { flex:1; }
+  .grid3 { display:flex; gap:5mm; } .grid3 > * { flex:1; }
+
+  .chip {
+    display:inline-block; font-size:7.5pt; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    border:.5mm solid #101109; border-radius:99mm; padding:1.6mm 4mm; background:#E8B44C; margin:0 2mm 2mm 0;
+  }
+  .chip.o { background:#FF5A1F; color:#fff; } .chip.t { background:#0E7C7B; color:#fff; }
+  .chip.p { background:#FBF8F0; }
+
+  .big { font-family:'Syne'; font-weight:800; font-size:40pt; color:#FF5A1F; line-height:1; }
+  .statl { font-size:8pt; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#5c584c; }
+
+  table { width:100%; border-collapse:collapse; font-size:9.5pt; }
+  th,td { border:.5mm solid #101109; padding:2.4mm 3mm; text-align:left; vertical-align:top; }
+  th { background:#101109; color:#F4F0E6; font-size:8pt; letter-spacing:.1em; text-transform:uppercase; }
+  tr:nth-child(even) td { background:#efe9db; }
+
+  ul.tick { list-style:none; }
+  ul.tick li { padding-left:7mm; position:relative; margin:2mm 0; font-size:11pt; line-height:1.5; }
+  ul.tick li::before { content:'■'; position:absolute; left:0; color:#FF5A1F; font-size:8pt; top:1.2mm; }
+
+  .flow { display:flex; align-items:stretch; gap:3mm; margin:4mm 0; }
+  .flow .node { flex:1; border:.7mm solid #101109; border-radius:3mm; background:#FBF8F0;
+    box-shadow:1mm 1mm 0 #101109; padding:4mm 3mm; text-align:center; }
+  .flow .node .n { font-family:'Syne'; font-weight:800; font-size:13pt; }
+  .flow .node .d { font-size:8pt; color:#5c584c; line-height:1.4; margin-top:1mm; }
+  .flow .arrow { align-self:center; font-family:'Syne'; font-weight:800; font-size:16pt; color:#FF5A1F; }
+
+  .shot { height:118mm; display:flex; gap:6mm; align-items:center; justify-content:center; }
+  .shot img { height:112mm; border:.8mm solid #101109; border-radius:4mm; box-shadow:1.4mm 1.4mm 0 #101109; }
+  .cap { font-size:8pt; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#5c584c; text-align:center; margin-top:2mm; }
+
+  .dark { background:#101109 !important; color:#F4F0E6; }
+  .dark .kicker { color:#FF5A1F; }
+  .dark p.lead { color:#c9c2ad; }
+  .dark .foot { color:#6b6757; }
+  .dark .rule { background:#FF5A1F; }
+
+  pre { background:#101109; color:#efe7d2; border-radius:3mm; padding:4mm 5mm;
+    font-family:Consolas,monospace; font-size:9.5pt; line-height:1.5; white-space:pre-wrap;
+    border:.6mm solid #101109; }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 : COVER -->
+<div class="slide dark">
+  <div style="display:flex; height:100%; align-items:center; gap:10mm;">
+    <img src="../../assets/images/logo_mark.svg" style="width:52mm; height:52mm;">
+    <div>
+      <div class="kicker">UTS · Lab Pemrograman Mobile · Take-Home Individu</div>
+      <h1 style="color:#F4F0E6; font-size:52pt;">NALAR<br>NUSANTARA</h1>
+      <p class="lead">Aplikasi Kuis Pilihan Ganda — Flutter, Provider, Dual Theme</p>
+      <div style="margin-top:4mm;">
+        <span class="chip o">Affan</span><span class="chip">github.com/affanjr07/UTS_PEMMOB</span>
+        <span class="chip p" style="color:#101109;">November 2026</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2 : APA -->
+<div class="slide">
+  <div class="kicker">01 · Ringkasan</div>
+  <h2>Apa itu Nalar Nusantara?</h2>
+  <div class="rule"></div>
+  <p class="lead">Kuis pengetahuan umum bertema Indonesia: pengguna memasukkan nama,
+  memilih kategori, mengerjakan 12 soal (dengan/tanpa timer 20 detik), lalu melihat skor,
+  predikat, statistik, rekor pribadi, dan pembahasan tiap soal. <b>Tanpa database</b> — data dummy lokal.</p>
+  <div class="grid3" style="margin-top:6mm;">
+    <div class="card" style="text-align:center;"><div class="big">5</div><div class="statl">Halaman Navigasi</div></div>
+    <div class="card" style="text-align:center;"><div class="big">12</div><div class="statl">Soal · 5 Kategori</div></div>
+    <div class="card" style="text-align:center;"><div class="big">15</div><div class="statl">Widget Reusable</div></div>
+  </div>
+  <div class="grid3">
+    <div class="card" style="text-align:center;"><div class="big">23</div><div class="statl">Commit GitHub</div></div>
+    <div class="card" style="text-align:center;"><div class="big">15</div><div class="statl">Pengujian Lolos</div></div>
+    <div class="card" style="text-align:center;"><div class="big">2</div><div class="statl">Bonus Dikerjakan</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 3 : KRITERIA -->
+<div class="slide">
+  <div class="kicker">02 · Kriteria Wajib</div>
+  <h2>Semua Kriteria Terpenuhi</h2>
+  <div class="rule"></div>
+  <table>
+    <tr><th style="width:38%">Kriteria</th><th>Implementasi</th></tr>
+    <tr><td>Stateless + StatefulWidget</td><td>Welcome/Quiz = Stateful (animasi, validasi) · Result, Review, About, widget = Stateless</td></tr>
+    <tr><td>Min. 2 halaman + navigasi</td><td><b>5 halaman</b> + transisi kustom fade/slide/scale</td></tr>
+    <tr><td>Widget reusable terpisah</td><td>15 file di lib/widgets/ (NeoCard, OptionTile, ScoreRing, …)</td></tr>
+    <tr><td>Aset gambar / ikon</td><td>SVG buatan sendiri + ikon launcher adaptive (PNG)</td></tr>
+    <tr><td>Font kustom</td><td><b>Syne</b> (display) + <b>Space Grotesk</b> (teks), bundled lokal</td></tr>
+    <tr><td>Ukuran dinamis</td><td>context.fs()/sz()/gap() — relatif layar, tanpa hardcode</td></tr>
+    <tr><td>State management</td><td>Provider di atas MaterialApp — progres aman saat rotasi/pindah halaman</td></tr>
+    <tr><td>Tanpa database</td><td>Bank soal dummy lokal + shared_preferences</td></tr>
+    <tr><td>Commit GitHub bertahap</td><td>23 commit per fitur</td></tr>
+    <tr><td>Desain sedetail mungkin</td><td>Neo-editorial “bone &amp; ink” + animasi berlapis</td></tr>
+  </table>
+</div>
+
+<!-- SLIDE 4 : BONUS -->
+<div class="slide">
+  <div class="kicker">03 · Bonus &amp; Nilai Tambah</div>
+  <h2>Melebihi Syarat Minimum</h2>
+  <div class="rule"></div>
+  <div class="grid2">
+    <div class="card">
+      <span class="chip t">Bonus 1</span>
+      <h2 style="font-size:15pt;">Dual-Theme Terang/Gelap</h2>
+      <p class="lead" style="font-size:10pt;">ThemeController + 2 ThemeData penuh; toggle di halaman sambutan; splash Android adaptif mode gelap.</p>
+    </div>
+    <div class="card">
+      <span class="chip t">Bonus 2</span>
+      <h2 style="font-size:15pt;">Adaptive &amp; Responsive</h2>
+      <p class="lead" style="font-size:10pt;">ContentMaxWidth untuk tablet/web, grid statistik 1→3 kolom, TextScaler dibatasi.</p>
+    </div>
+  </div>
+  <div class="card">
+    <span class="chip o">Fitur</span>
+    <div class="grid2" style="margin-top:2mm;">
+      <ul class="tick" style="font-size:10pt;">
+        <li>Pemilih kategori soal + jumlah soal dinamis</li>
+        <li>Timer 20 dtk + bonus skor sisa waktu</li>
+        <li>Acak urutan soal (preferensi tersimpan)</li>
+        <li>Streak jawaban benar beruntun</li>
+      </ul>
+      <ul class="tick" style="font-size:10pt;">
+        <li>Rekor &amp; 5 skor terakhir tersimpan lokal</li>
+        <li>Resume kuis + salin hasil ke papan klip</li>
+        <li>Haptic feedback + konfeti layar hasil</li>
+        <li>Pembahasan tiap soal + predikat hasil</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5 : ARSITEKTUR -->
+<div class="slide">
+  <div class="kicker">04 · Arsitektur</div>
+  <h2>Alur 5 Halaman &amp; State Management</h2>
+  <div class="rule"></div>
+  <div class="flow">
+    <div class="node"><div class="n">Sambutan</div><div class="d">nama · kategori · timer · acak · rekor</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="n">Kuis</div><div class="d">12 soal · dial waktu · streak</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="n">Hasil</div><div class="d">ring skor · statistik · konfeti</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="n">Pembahasan</div><div class="d">kunci · jawaban · catatan</div></div>
+  </div>
+  <p class="lead" style="font-size:10.5pt;">+ halaman <b>Tentang</b> (kriteria &amp; kredit) dari ikon info.
+  Empat ChangeNotifier diregistrasi <b>di atas MaterialApp</b> — progres kuis tidak hilang saat rotasi
+  atau pindah halaman:</p>
+  <pre>MultiProvider( providers: [
+    ChangeNotifierProvider(create: (_) =&gt; ThemeController()),   // tema
+    ChangeNotifierProvider(create: (_) =&gt; QuizController()),   // progres kuis
+    ChangeNotifierProvider(create: (_) =&gt; ScoreStore()),       // rekor skor
+    ChangeNotifierProvider(create: (_) =&gt; PrefsStore()),      // preferensi
+] )</pre>
+</div>
+
+<!-- SLIDE 6 : DESAIN -->
+<div class="slide">
+  <div class="kicker">05 · Desain</div>
+  <h2>Bahasa Visual “Neo-Editorial Bone &amp; Ink”</h2>
+  <div class="rule"></div>
+  <div class="grid2">
+    <div class="card">
+      <h2 style="font-size:14pt;">Sistem Desain</h2>
+      <ul class="tick" style="font-size:10pt;">
+        <li>Latar krem tulang <b>#F4F0E6</b> / tinta gelap <b>#101109</b></li>
+        <li>Aksen jingga <b>#FF5A1F</b>, teal, kuning matahari</li>
+        <li>Kartu bertepi tebal + bayangan padat <b>tanpa blur</b></li>
+        <li>Tipografi Syne 800 (judul) × Space Grotesk (teks)</li>
+        <li>Marquee berjalan + latar lingkaran melayang</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2 style="font-size:14pt;">Animasi</h2>
+      <ul class="tick" style="font-size:10pt;">
+        <li>Stagger kartu &amp; opsi jawaban saat masuk</li>
+        <li>Umpan balik jawaban: benar/salah terkunci</li>
+        <li>Ring skor + angka count-up di layar hasil</li>
+        <li>Konfeti CustomPainter saat rekor/hasil</li>
+        <li>Shake validasi nama · dial waktu melingkar</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7-9 : SCREENSHOTS -->
+<div class="slide">
+  <div class="kicker">06 · Tangkapan Layar</div>
+  <h2>Halaman Sambutan — Terang &amp; Gelap</h2>
+  <div class="rule" style="margin-bottom:3mm;"></div>
+  <div class="shot">
+    <div><img src="../shots/01_welcome_light.png"><div class="cap">Mode terang</div></div>
+    <div><img src="../shots/02_welcome_dark.png"><div class="cap">Mode gelap</div></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="kicker">06 · Tangkapan Layar</div>
+  <h2>Halaman Kuis &amp; Umpan Balik Jawaban</h2>
+  <div class="rule" style="margin-bottom:3mm;"></div>
+  <div class="shot">
+    <div><img src="../shots/03_quiz.png"><div class="cap">Soal + dial waktu 20 dtk</div></div>
+    <div><img src="../shots/04_answered.png"><div class="cap">Jawaban terkunci + pembahasan</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 10 : PENGUJIAN -->
+<div class="slide">
+  <div class="kicker">07 · Kualitas</div>
+  <h2>Pengujian &amp; Verifikasi</h2>
+  <div class="rule"></div>
+  <div class="grid2">
+    <div class="card">
+      <h2 style="font-size:14pt;">15 Pengujian Otomatis</h2>
+      <ul class="tick" style="font-size:10pt;">
+        <li><b>4 widget test</b> — validasi nama, alur kuis penuh, ganti tema, resume kuis</li>
+        <li><b>7 unit test</b> QuizController — skor, streak, bonus waktu, filter kategori, acak, restart</li>
+        <li><b>4 unit test</b> ScoreStore — rekor, riwayat, persistensi, idempotensi</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card">
+        <h2 style="font-size:14pt;">Statis &amp; Build</h2>
+        <ul class="tick" style="font-size:10pt;">
+          <li>flutter analyze — <b>0 issue</b></li>
+          <li>flutter build apk --release — <b>sukses</b></li>
+          <li>Uji manual emulator Android (API 36)</li>
+        </ul>
+      </div>
+      <pre>$ flutter analyze
+No issues found!
+$ flutter test
+00:03 +15: All tests passed!</pre>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11 : GITHUB -->
+<div class="slide">
+  <div class="kicker">08 · Pelacakan Kemajuan</div>
+  <h2>23 Commit di GitHub, Per Fitur</h2>
+  <div class="rule"></div>
+  <div class="grid2">
+    <div class="card">
+      <span class="chip o">Fondasi</span>
+      <ul class="tick" style="font-size:9.5pt;">
+        <li>inisialisasi proyek + platform</li>
+        <li>font kustom + aset SVG</li>
+        <li>sistem desain + dual theme</li>
+        <li>model &amp; bank soal + state</li>
+        <li>15 reusable widgets</li>
+        <li>4 halaman + provider</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="chip t">Pengembangan &amp; Pengujian</span>
+      <ul class="tick" style="font-size:9.5pt;">
+        <li>pemilih kategori · rekor lokal · konfeti</li>
+        <li>haptic · halaman Tentang · acak soal</li>
+        <li>salin hasil · preferensi tersimpan</li>
+        <li>3 commit test (15 pengujian)</li>
+        <li>README + CHANGELOG</li>
+      </ul>
+    </div>
+  </div>
+  <p class="lead" style="margin-top:2mm; font-size:10pt;">Repo: <b>github.com/affanjr07/UTS_PEMMOB</b> · branch main · setiap commit lolos analyze + test sebelum di-push.</p>
+</div>
+
+<!-- SLIDE 12 : PENUTUP -->
+<div class="slide dark">
+  <div style="display:flex; height:100%; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+    <img src="../../assets/images/hero_illustration.svg" style="width:60mm; height:60mm; margin-bottom:6mm;">
+    <h1 style="color:#F4F0E6; font-size:44pt;">Terima Kasih</h1>
+    <p class="lead" style="margin-top:2mm;">Nalar Nusantara — kuis, skor, dan pembahasan dalam balutan desain neo-editorial.</p>
+    <div style="margin-top:6mm;">
+      <span class="chip o">Affan</span><span class="chip p" style="color:#101109;">affanjr07</span>
+      <span class="chip t">github.com/affanjr07/UTS_PEMMOB</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

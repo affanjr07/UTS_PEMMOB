@@ -6,6 +6,11 @@ Aplikasi kuis pilihan ganda bertema pengetahuan umum Indonesia. Pengguna memasuk
 nama, memilih kategori soal, mengerjakan kuis (dengan atau tanpa timer), lalu melihat
 skor akhir atas namanya beserta pembahasan seluruh jawaban.
 
+> 📄 **Dokumentasi proyek** — [`docs/Laporan_Nalar_Nusantara.pdf`](docs/Laporan_Nalar_Nusantara.pdf)
+> (laporan lengkap, A4) dan [`docs/Presentasi_Nalar_Nusantara.pdf`](docs/Presentasi_Nalar_Nusantara.pdf)
+> (slide presentasi, 16:9). Sumber HTML + tangkapan layar ada di [`docs/src/`](docs/src) dan
+> [`docs/shots/`](docs/shots).
+
 ---
 
 ## Daftar Fitur

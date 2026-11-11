@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Laporan Proyek — Nalar Nusantara</title>
+<style>
+  @font-face { font-family:'Syne'; src:url('../../assets/fonts/Syne-500.ttf'); font-weight:500; }
+  @font-face { font-family:'Syne'; src:url('../../assets/fonts/Syne-700.ttf'); font-weight:700; }
+  @font-face { font-family:'Syne'; src:url('../../assets/fonts/Syne-800.ttf'); font-weight:800; }
+  @font-face { font-family:'SpaceGrotesk'; src:url('../../assets/fonts/SpaceGrotesk-400.ttf'); font-weight:400; }
+  @font-face { font-family:'SpaceGrotesk'; src:url('../../assets/fonts/SpaceGrotesk-600.ttf'); font-weight:600; }
+  @font-face { font-family:'SpaceGrotesk'; src:url('../../assets/fonts/SpaceGrotesk-700.ttf'); font-weight:700; }
+
+  @page { size: A4; margin: 14mm 13mm 16mm 13mm; }
+
+  :root {
+    --bone:#F4F0E6; --ink:#101109; --paper:#FBF8F0; --soft:#5c584c;
+    --accent:#FF5A1F; --teal:#0E7C7B; --sun:#E8B44C; --danger:#C4402F;
+    --line:#14120b;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body {
+    font-family:'SpaceGrotesk', 'Segoe UI', sans-serif; color:var(--ink);
+    background:var(--bone); font-size:10.2pt; line-height:1.62;
+  }
+  h1,h2,h3,.display { font-family:'Syne','Segoe UI',sans-serif; }
+
+  .sheet { background:
+    radial-gradient(circle at 88% 6%, rgba(255,90,31,.06), transparent 42%),
+    radial-gradient(circle at 4% 92%, rgba(14,124,123,.06), transparent 40%),
+    var(--bone); }
+
+  /* ---------- KOMPONEN NEO-EDITORIAL ---------- */
+  .card {
+    background:var(--paper); border:2.4pt solid var(--line);
+    box-shadow:3.2pt 3.2pt 0 var(--line); border-radius:10pt; padding:14pt 16pt;
+    margin:10pt 0 14pt; break-inside:avoid;
+  }
+  .tag {
+    display:inline-block; font-family:'SpaceGrotesk'; font-weight:700; font-size:6.8pt;
+    letter-spacing:.14em; text-transform:uppercase; padding:3pt 8pt; border-radius:99pt;
+    border:1.8pt solid var(--line); background:var(--sun); box-shadow:1.6pt 1.6pt 0 var(--line);
+    margin-bottom:8pt;
+  }
+  .tag.orange { background:var(--accent); color:#fff; }
+  .tag.teal   { background:var(--teal);   color:#fff; }
+  h2.sec {
+    font-size:17pt; font-weight:800; letter-spacing:-.4pt; margin:4pt 0 2pt;
+  }
+  .sec-line { height:2.6pt; background:var(--line); border-radius:2pt; margin:4pt 0 10pt; }
+  .kicker { font-size:7.4pt; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); }
+
+  table { width:100%; border-collapse:collapse; font-size:8.6pt; }
+  th,td { border:1.6pt solid var(--line); padding:5.5pt 7pt; vertical-align:top; text-align:left; }
+  th { background:var(--ink); color:var(--bone); font-weight:700; font-size:7.6pt; letter-spacing:.08em; text-transform:uppercase; }
+  tr:nth-child(even) td { background:#efe9db; }
+
+  code, .mono { font-family:Consolas, 'Courier New', monospace; font-size:8.2pt; }
+  pre {
+    background:var(--ink); color:#efe7d2; border-radius:8pt; padding:10pt 12pt;
+    font-family:Consolas, 'Courier New', monospace; font-size:8pt; line-height:1.55;
+    border:2pt solid var(--line); box-shadow:2.4pt 2.4pt 0 var(--line); margin:8pt 0 12pt;
+    white-space:pre-wrap; break-inside:avoid;
+  }
+  pre .c { color:#8d8a7a; }
+  pre .k { color:#FFB38A; }
+  pre .s { color:#9BD1C0; }
+
+  ul.tick { list-style:none; }
+  ul.tick li { padding-left:16pt; position:relative; margin:3.5pt 0; }
+  ul.tick li::before { content:'■'; position:absolute; left:0; color:var(--accent); font-size:7.5pt; top:2pt; }
+
+  .page-break { break-before:page; }
+
+  /* ---------- COVER ---------- */
+  .cover { text-align:center; padding-top:26pt; }
+  .cover .logo { width:74pt; height:74pt; margin:0 auto 6pt; }
+  .cover h1 { font-size:39pt; font-weight:800; letter-spacing:-1.4pt; line-height:1.02; margin:6pt 0 4pt; }
+  .cover .sub { font-size:11pt; color:var(--soft); font-weight:600; }
+  .cover-band {
+    margin:16pt 0; background:var(--ink); color:var(--bone); border-radius:10pt;
+    padding:10pt 12pt; border:2.4pt solid var(--line); box-shadow:3.2pt 3.2pt 0 var(--line);
+  }
+  .cover-band b { color:var(--accent); }
+  .cover .meta { font-size:9pt; color:var(--soft); }
+  .chips { display:flex; gap:6pt; justify-content:center; flex-wrap:wrap; margin-top:10pt; }
+  .chip {
+    font-size:7pt; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    border:1.6pt solid var(--line); border-radius:99pt; padding:3pt 9pt; background:var(--paper);
+  }
+
+  /* ---------- FIGURES ---------- */
+  .figrow { display:flex; gap:10pt; break-inside:avoid; }
+  .fig { flex:1; text-align:center; }
+  .fig img {
+    width:100%; border:2.2pt solid var(--line); border-radius:9pt;
+    box-shadow:2.6pt 2.6pt 0 var(--line); background:#000;
+  }
+  .fig .cap { font-size:7pt; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--soft); margin-top:5pt; }
+
+  /* ---------- FLOW DIAGRAM ---------- */
+  .flow { display:flex; align-items:stretch; gap:0; margin:10pt 0 4pt; break-inside:avoid; }
+  .flow .node {
+    flex:1; border:2.2pt solid var(--line); border-radius:8pt; background:var(--paper);
+    box-shadow:2.4pt 2.4pt 0 var(--line); padding:7pt 6pt; text-align:center;
+  }
+  .flow .node .n { font-family:'Syne'; font-weight:800; font-size:9.5pt; }
+  .flow .node .d { font-size:6.6pt; color:var(--soft); line-height:1.35; }
+  .flow .arrow { align-self:center; font-family:'Syne'; font-weight:800; font-size:13pt; padding:0 4pt; color:var(--accent); }
+
+  .tree { font-family:Consolas,monospace; font-size:8pt; line-height:1.6; white-space:pre; }
+
+  .statgrid { display:flex; gap:8pt; margin:8pt 0; }
+  .stat { flex:1; border:2.2pt solid var(--line); border-radius:8pt; padding:8pt; text-align:center; background:var(--paper); box-shadow:2.4pt 2.4pt 0 var(--line); }
+  .stat .v { font-family:'Syne'; font-weight:800; font-size:16pt; color:var(--accent); }
+  .stat .l { font-size:6.6pt; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--soft); }
+
+  .commit li { margin:1.2pt 0; font-family:Consolas,monospace; font-size:7.6pt; }
+  .commit li b { color:var(--teal); font-weight:400; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<!-- ======================= COVER ======================= -->
+<section class="cover">
+  <img class="logo" src="../../assets/images/logo_mark.svg" alt="logo">
+  <div class="kicker">Laporan &amp; Dokumentasi Proyek — UTS Take-Home</div>
+  <h1>NALAR<br>NUSANTARA</h1>
+  <div class="sub">Aplikasi Kuis Pilihan Ganda — Flutter</div>
+  <div class="cover-band">
+    <b>Laboratorium Pemrograman Mobile</b> · Ujian Tengah Semester · Tugas Individu<br>
+    Repository: github.com/affanjr07/UTS_PEMMOB
+  </div>
+  <div class="meta">
+    <b>Affan</b> · GitHub <b>affanjr07</b><br>
+    Diperbarui: 11 November 2026
+  </div>
+  <div class="chips">
+    <span class="chip">Flutter</span><span class="chip">Provider</span><span class="chip">Dual Theme</span>
+    <span class="chip">23 Commit</span><span class="chip">15 Pengujian</span>
+  </div>
+</section>
+
+<!-- ======================= 1. RINGKASAN ======================= -->
+<section>
+  <div class="card">
+    <span class="tag orange">01 · Ringkasan Proyek</span>
+    <h2 class="sec">Apa itu Nalar Nusantara?</h2>
+    <div class="sec-line"></div>
+    <p><b>Nalar Nusantara</b> adalah aplikasi kuis pilihan ganda bertema pengetahuan umum Indonesia.
+    Pengguna memasukkan nama, memilih kategori soal (Budaya, Sejarah, Sains, Teknologi, Geografi),
+    lalu mengerjakan kuis 12 soal — dengan atau tanpa batas waktu 20 detik per soal. Di akhir kuis,
+    pengguna melihat skor, predikat pemahaman, statistik lengkap, rekor pribadi, serta pembahasan
+    setiap soal.</p>
+    <p style="margin-top:6pt">Aplikasi dibangun <b>tanpa database</b> — bank soal dummy tersimpan lokal
+    di dalam kode. Desain memakai bahasa visual <b>neo-editorial “bone &amp; ink”</b>: latar krem tulang,
+    tinta gelap pekat, aksen jingga, kartu bertepi tebal dengan bayangan padat tanpa blur, serta
+    tipografi display <b>Syne</b> dan teks <b>Space Grotesk</b>.</p>
+  </div>
+  <div class="statgrid">
+    <div class="stat"><div class="v">5</div><div class="l">Halaman</div></div>
+    <div class="stat"><div class="v">12</div><div class="l">Soal · 5 Kategori</div></div>
+    <div class="stat"><div class="v">15</div><div class="l">Widget Reusable</div></div>
+    <div class="stat"><div class="v">23</div><div class="l">Commit GitHub</div></div>
+    <div class="stat"><div class="v">15</div><div class="l">Pengujian Lolos</div></div>
+  </div>
+</section>
+
+<!-- ======================= 2. KRITERIA ======================= -->
+<section class="page-break">
+  <div class="card">
+    <span class="tag orange">02 · Kriteria Wajib</span>
+    <h2 class="sec">Pemenuhan Kriteria Penilaian</h2>
+    <div class="sec-line"></div>
+    <table>
+      <tr><th style="width:4%">#</th><th style="width:27%">Kriteria</th><th>Implementasi di Nalar Nusantara</th></tr>
+      <tr><td>1</td><td>Stateless &amp; StatefulWidget sesuai kebutuhan</td><td><code>WelcomeScreen</code> &amp; <code>QuizScreen</code> = StatefulWidget (animasi, validasi, lock jawaban). <code>ResultScreen</code>, <code>ReviewScreen</code>, <code>AboutScreen</code>, dan seluruh 15 widget tampilan = StatelessWidget.</td></tr>
+      <tr><td>2</td><td>Minimal 2 halaman + navigasi</td><td><b>5 halaman</b>: Sambutan → Kuis → Hasil → Pembahasan, plus halaman Tentang. Navigasi <code>Navigator</code> dengan transisi kustom (fade + slide + scale).</td></tr>
+      <tr><td>3</td><td>Widget reusable di file terpisah</td><td>15 file di <code>lib/widgets/</code>: NeoCard, PrimaryButton, SecondaryButton, OptionTile, ScoreRing, SegmentedProgress, StatTile, StatGrid, CategoryChip, MicroLabel, BrandLogo, MarqueeTicker, TimerDial, DecorBackground, ConfettiBurst.</td></tr>
+      <tr><td>4</td><td>Aset gambar / ikon</td><td>Ilustrasi SVG buatan sendiri (<code>logo_mark</code>, <code>hero_illustration</code>, <code>trophy</code>) via <code>flutter_svg</code>; ikon launcher PNG + adaptive icon Android/iOS; ikon Material di tiap komponen.</td></tr>
+      <tr><td>5</td><td>Font kustom (bukan bawaan)</td><td><b>Syne</b> (500–800) untuk judul &amp; <b>Space Grotesk</b> (400–700) untuk teks — TTF di-bundle lokal di <code>assets/fonts/</code>, dipakai di seluruh aplikasi.</td></tr>
+      <tr><td>6</td><td>Ukuran UI dinamis (tidak hardcode)</td><td>Ekstensi <code>context.fs() / sz() / gap()</code> menskalakan seluruh ukuran relatif lebar layar acuan 390&nbsp;px; <code>ContentMaxWidth</code> membatasi lebar konten di tablet; <code>StatGrid</code> adaptif 1→3 kolom; <code>TextScaler</code> dibatasi.</td></tr>
+      <tr><td>7</td><td>State management, progres tak hilang saat rotasi / pindah halaman</td><td><code>QuizController</code> (ChangeNotifier) + <b>provider</b> diletakkan <b>di atas MaterialApp</b> — progres jawaban, skor, dan streak bertahan saat rotasi, keluar-masuk halaman, dan <code>pushReplacement</code>; tersedia fitur <i>resume</i> kuis.</td></tr>
+      <tr><td>8</td><td>Tanpa database (data dummy lokal)</td><td>12 soal + pembahasan hardcoded di <code>lib/core/data/quiz_bank.dart</code>; skor &amp; preferensi memakai <code>shared_preferences</code> (penyimpanan lokal, bukan database).</td></tr>
+      <tr><td>9</td><td>GitHub sebagai pelacak kemajuan</td><td><b>23 commit</b> terurut per fitur (inisialisasi → desain → halaman → fitur → pengujian → dokumentasi) di <code>affanjr07/UTS_PEMMOB</code>.</td></tr>
+      <tr><td>10</td><td>Desain bebas, sedetail mungkin</td><td>Tema neo-editorial “bone &amp; ink”, ilustrasi SVG sendiri, animasi berlapis (stagger, ring skor, count-up, konfeti, marquee, latar melayang).</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <span class="tag teal">Bonus</span>
+    <h2 class="sec">Nilai Tambah (Opsional)</h2>
+    <div class="sec-line"></div>
+    <table>
+      <tr><th style="width:30%">Bonus</th><th>Implementasi</th></tr>
+      <tr><td>Dual-theme terang / gelap</td><td><code>ThemeController</code> + dua <code>ThemeData</code> penuh; tombol ganti tema di halaman sambutan; splash screen Android ikut menyesuaikan mode gelap (<code>values-night</code>).</td></tr>
+      <tr><td>Adaptive &amp; responsive</td><td>Lebar konten dibatasi di tablet/web (560–780&nbsp;px), grid statistik berubah 1→3 kolom, skala font dibatasi — diuji di emulator Pixel &amp; mode web.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ======================= 3. FITUR ======================= -->
+<section class="page-break">
+  <div class="card">
+    <span class="tag orange">03 · Fitur Utama</span>
+    <h2 class="sec">Kemampuan Aplikasi</h2>
+    <div class="sec-line"></div>
+    <table>
+      <tr><th style="width:34%">Fitur</th><th>Penjelasan</th></tr>
+      <tr><td>Pemilih kategori soal</td><td>Centang kategori mana saja yang dimainkan; jumlah soal pada tombol mulai ikut menyesuaikan.</td></tr>
+      <tr><td>Mode timer 20 detik</td><td>Dial hitung mundur melingkar; waktu habis = jawaban salah; sisa waktu menjadi bonus skor.</td></tr>
+      <tr><td>Acak urutan soal</td><td>Toggle pengacakan urutan; preferensi tersimpan antar sesi.</td></tr>
+      <tr><td>Skor berjenjang + streak</td><td>Poin dasar 100 + bonus waktu 3/detik; streak jawaban benar beruntun ditampilkan sebagai chip.</td></tr>
+      <tr><td>Rekor &amp; riwayat lokal</td><td>Skor tertinggi + 5 skor terakhir tersimpan di perangkat; chip “rekor baru!” saat rekor pecah.</td></tr>
+      <tr><td>Layar hasil</td><td>Ring skor animasi, count-up angka, 6 statistik, predikat (Sangat Paham → Ayo Belajar Lagi), konfeti.</td></tr>
+      <tr><td>Pembahasan</td><td>Per soal: kunci + jawaban pengguna + catatan; juga tersedia inline setelah menjawab.</td></tr>
+      <tr><td>Resume kuis</td><td>Keluar dari halaman kuis lalu tekan “Lanjutkan” — progres jawaban tetap ada.</td></tr>
+      <tr><td>Salin hasil</td><td>Ringkasan skor tersalin ke papan klip, disertai snackbar.</td></tr>
+      <tr><td>Haptic feedback</td><td>Getar halus saat menjawab, memulai kuis, dan tiba di layar hasil.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ======================= 4. ARSITEKTUR ======================= -->
+<section class="page-break">
+  <div class="card">
+    <span class="tag orange">04 · Arsitektur</span>
+    <h2 class="sec">Alur Navigasi 5 Halaman</h2>
+    <div class="sec-line"></div>
+    <div class="flow">
+      <div class="node"><div class="n">Sambutan</div><div class="d">nama, kategori, timer, acak, rekor</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">Kuis</div><div class="d">12 soal, dial waktu, streak</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">Hasil</div><div class="d">skor, statistik, konfeti</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">Pembahasan</div><div class="d">kunci &amp; catatan</div></div>
+    </div>
+    <p style="margin-top:8pt">Halaman <b>Tentang</b> (kriteria &amp; kredit) diakses dari ikon info pada halaman Sambutan.
+    Tombol <b>Lanjutkan</b> di Sambutan memunculkan kembali Kuis dengan progres tersimpan.</p>
+  </div>
+
+  <div class="card">
+    <h2 class="sec">State Management — Provider di atas MaterialApp</h2>
+    <div class="sec-line"></div>
+    <p>Empat <code>ChangeNotifier</code> diregistrasi lewat <code>MultiProvider</code> pada akar aplikasi, sehingga
+    <b>progres kuis tidak pernah hilang</b> akibat rotasi layar atau perpindahan halaman:</p>
+<pre><span class="c">// lib/main.dart</span>
+MultiProvider(
+  providers: [
+    ChangeNotifierProvider(create: (_) =&gt; <span class="k">ThemeController</span>()),  <span class="c">// tema terang/gelap</span>
+    ChangeNotifierProvider(create: (_) =&gt; <span class="k">QuizController</span>()),  <span class="c">// progres, skor, timer, streak</span>
+    ChangeNotifierProvider(create: (_) =&gt; <span class="k">ScoreStore</span>()),      <span class="c">// rekor &amp; riwayat skor</span>
+    ChangeNotifierProvider(create: (_) =&gt; <span class="k">PrefsStore</span>()),      <span class="c">// preferensi timer &amp; acak</span>
+  ],
+  child: <span class="k">const</span> _AppShell(),
+)</pre>
+    <p>Memulai kuis dengan filter kategori dan pengacakan:</p>
+<pre><span class="c">// lib/state/quiz_controller.dart</span>
+<span class="k">void</span> start({
+  <span class="k">required</span> String playerName,
+  <span class="k">required</span> <span class="k">bool</span> withTimer,
+  List&lt;QuizCategory&gt;? categories,   <span class="c">// filter kategori pilihan pengguna</span>
+  <span class="k">bool</span> shuffle = <span class="k">false</span>,             <span class="c">// acak urutan soal</span>
+}) {
+  ...
+  _questions = List.unmodifiable(list);  <span class="c">// daftar soal sesi ini</span>
+  _answers    = List&lt;int?&gt;.filled(_questions.length, <span class="k">null</span>);
+  notifyListeners();
+}</pre>
+  </div>
+
+  <div class="card">
+    <h2 class="sec">Ukuran Dinamis — Tanpa Angka Mati</h2>
+    <div class="sec-line"></div>
+<pre><span class="c">// lib/core/responsive/responsive.dart — ekstensi BuildContext</span>
+context.fs(19)   <span class="c">// ukuran font  dinamis (relatif lebar layar)</span>
+context.sz(42)   <span class="c">// ukuran kotak dinamis</span>
+context.gap(18)  <span class="c">// jarak antar elemen dinamis</span>
+
+<span class="c">// contoh pemakaian di QuizScreen</span>
+Text(
+  <span class="s">'SOAL ${quiz.currentIndex + 1} DARI ${quiz.totalQuestions}'</span>,
+  style: AppType.labelStyle(fontSize: context.fs(11.5)),
+)</pre>
+    <p>Contoh lain: <code>ContentMaxWidth</code> membungkus konten agar tetap nyaman dibaca di tablet
+    dan web, dan <code>StatGrid</code> menyusun ulang statistik menjadi 3 kolom pada layar lebar.</p>
+  </div>
+</section>
+
+<!-- ======================= 5. STRUKTUR ======================= -->
+<section class="page-break">
+  <div class="card">
+    <span class="tag orange">05 · Struktur</span>
+    <h2 class="sec">Struktur Proyek</h2>
+    <div class="sec-line"></div>
+    <div class="tree">lib/
+├── main.dart                      # MultiProvider + MaterialApp (dual theme)
+├── core/
+│   ├── data/quiz_bank.dart        # 12 soal dummy (5 kategori) + pembahasan
+│   ├── navigation/app_routes.dart # transisi halaman kustom (fade+slide+scale)
+│   ├── responsive/responsive.dart # helper ukuran dinamis fs/sz/gap
+│   └── theme/                     # app_colors, app_type, app_theme (terang/gelap)
+├── models/question.dart           # Question, QuizResult, enum QuizCategory
+├── state/
+│   ├── quiz_controller.dart       # progres kuis, skor, timer, streak
+│   ├── theme_controller.dart      # mode terang/gelap
+│   ├── score_store.dart           # rekor &amp; riwayat skor (shared_preferences)
+│   └── prefs_store.dart           # preferensi timer &amp; acak soal
+├── screens/                        # welcome, quiz, result, review, about
+└── widgets/                        # 15 widget reusable
+assets/
+├── fonts/                          # Syne &amp; Space Grotesk (TTF)
+└── images/                         # logo, hero, trofi (SVG)
+icons/                              # sumber ikon launcher (PNG 512)
+test/
+├── widget_test.dart               # 4 widget test
+├── quiz_controller_test.dart       # 7 unit test
+└── score_store_test.dart          # 4 unit test</div>
+  </div>
+</section>
+
+<!-- ======================= 6. SCREENSHOTS ======================= -->
+<section class="page-break">
+  <div class="card">
+    <span class="tag orange">06 · Tangkapan Layar</span>
+    <h2 class="sec">Tampilan Aplikasi</h2>
+    <div class="sec-line"></div>
+    <div class="figrow">
+      <div class="fig"><img src="../shots/01_welcome_light.png"><div class="cap">Sambutan — mode terang</div></div>
+      <div class="fig"><img src="../shots/02_welcome_dark.png"><div class="cap">Sambutan — mode gelap</div></div>
+    </div>
+    <div class="figrow" style="margin-top:10pt">
+      <div class="fig"><img src="../shots/03_quiz.png"><div class="cap">Halaman kuis + dial waktu</div></div>
+      <div class="fig"><img src="../shots/04_answered.png"><div class="cap">Jawaban benar + pembahasan inline</div></div>
+    </div>
+    <p style="margin-top:8pt">Tangkapan layar diambil langsung dari aplikasi berjalan di emulator Android
+    (Pixel 6 · API 36) — halaman hasil, pembahasan, dan tentang dapat dilihat pada demo langsung.</p>
+  </div>
+</section>
+
+<!-- ======================= 7. PENGUJIAN ======================= -->
+<section class="page-break">
+  <div class="card">
+    <span class="tag teal">07 · Pengujian</span>
+    <h2 class="sec">Kualitas &amp; Verifikasi</h2>
+    <div class="sec-line"></div>
+    <ul class="tick">
+      <li><b>flutter analyze</b> — 0 issue (tanpa warning/error).</li>
+      <li><b>flutter test</b> — <b>15 pengujian lolos</b>: 4 widget test (validasi nama, alur kuis penuh, ganti tema, resume kuis) + 7 unit test <code>QuizController</code> (status, skor &amp; streak, bonus waktu, hasil akhir, filter kategori, acak soal, restart) + 4 unit test <code>ScoreStore</code> (pemuatan, rekor, persistensi, idempotensi).</li>
+      <li><b>flutter build apk --release</b> — sukses (~48 MB); juga build debug.</li>
+      <li>Uji manual di emulator Android (Pixel, API 36): alur lengkap, toggle terang/gelap, tanpa overflow.</li>
+    </ul>
+<pre>$ flutter analyze
+No issues found!
+
+$ flutter test
+00:03 +15: All tests passed!</pre>
+  </div>
+</section>
+
+<!-- ======================= 8. GITHUB ======================= -->
+<section class="page-break">
+  <div class="card">
+    <span class="tag orange">08 · Pelacakan Kemajuan</span>
+    <h2 class="sec">Riwayat Commit GitHub (23 commit)</h2>
+    <div class="sec-line"></div>
+    <p>Setiap fitur di-commit terpisah agar kemajuan proyek terlihat bertahap —
+    <span class="mono">github.com/affanjr07/UTS_PEMMOB</span>, branch <span class="mono">main</span>:</p>
+    <ol class="commit">
+      <li><b>6e9f344</b> chore: inisialisasi proyek Flutter + konfigurasi platform</li>
+      <li><b>8143710</b> feat: font kustom Syne &amp; Space Grotesk, aset SVG, dependensi</li>
+      <li><b>0691a22</b> feat: sistem desain — palet, tipografi, dual theme, navigasi, responsif</li>
+      <li><b>3ccc289</b> feat: model soal, bank soal dummy, state QuizController/ThemeController</li>
+      <li><b>d651007</b> feat: reusable widgets (kartu, tombol, opsi, ring skor, grid statistik)</li>
+      <li><b>fb80ec6</b> feat: halaman sambutan, kuis, hasil, pembahasan + provider</li>
+      <li><b>3b64e58</b> test: widget test alur kuis</li>
+      <li><b>0b3db3d</b> docs: README lengkap</li>
+      <li><b>4883a32</b> chore: sinkronisasi riwayat awal repo GitHub</li>
+      <li><b>e1381d9</b> feat: pemilih kategori soal + filter kategori di QuizController</li>
+      <li><b>96fc20f</b> feat: skor terbaik &amp; riwayat lokal (shared_preferences) + badge rekor</li>
+      <li><b>7729374</b> feat: animasi konfeti di layar hasil</li>
+      <li><b>76215cc</b> feat: umpan balik haptic</li>
+      <li><b>77fe8eb</b> feat: halaman Tentang (kriteria UTS &amp; kredit)</li>
+      <li><b>b39d521</b> feat: opsi acak urutan soal</li>
+      <li><b>e87e681</b> feat: tombol salin hasil ke papan klip</li>
+      <li><b>a3ed0a1</b> feat: simpan preferensi timer &amp; acak (PrefsStore)</li>
+      <li><b>4668cad</b> test: unit test QuizController</li>
+      <li><b>490b6ab</b> test: unit test ScoreStore</li>
+      <li><b>1034672</b> test: widget test ganti tema &amp; resume</li>
+      <li><b>6fcf377</b> docs: README &amp; CHANGELOG lengkap</li>
+      <li><b>fbd03c4</b> docs: sinkronkan ringkasan riwayat commit</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======================= 9. MENJALANKAN ======================= -->
+<section>
+  <div class="card">
+    <span class="tag orange">09 · Eksekusi</span>
+    <h2 class="sec">Cara Menjalankan</h2>
+    <div class="sec-line"></div>
+<pre>$ flutter pub get        <span class="c"># pasang dependensi</span>
+$ flutter run            <span class="c"># jalankan di emulator/perangkat</span>
+$ flutter test           <span class="c"># 15 pengujian</span>
+$ flutter analyze        <span class="c"># 0 issue</span>
+$ flutter build apk --release   <span class="c"># APK: build/app/outputs/flutter-apk/</span></pre>
+    <p>Dependensi utama: <span class="mono">provider</span>, <span class="mono">flutter_svg</span>,
+    <span class="mono">shared_preferences</span>.</p>
+  </div>
+  <div class="card" style="background:var(--ink); color:var(--bone); border-color:var(--ink); box-shadow:3.2pt 3.2pt 0 var(--accent);">
+    <h2 class="sec" style="color:var(--bone)">Penutup</h2>
+    <div class="sec-line" style="background:var(--accent)"></div>
+    <p style="color:#d9d2bd">Nalar Nusantara memenuhi seluruh kriteria wajib UTS dan dua bonus,
+    dengan 23 commit terdokumentasi, 15 pengujian otomatis, serta desain neo-editorial
+    khas yang konsisten terang/gelap. Terima kasih.</p>
+    <p style="margin-top:10pt"><b style="color:var(--accent)">NALAR NUSANTARA</b> · Affan (affanjr07) · 2026</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
